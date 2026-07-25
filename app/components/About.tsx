@@ -87,10 +87,7 @@ export default function About() {
               AI Student &amp; Coder
             </h3>
             <p className="text-muted leading-relaxed">
-              Currently pursuing a BS in Artificial Intelligence at
-              FUUAST (2025–Present). I build with C++, Python, and
-              TypeScript — from university coursework to real projects
-              like a chatbot platform, bridging logic with creativity.
+              Currently pursuing a BS in Artificial Intelligence at FUUAST (2025–Present). I build with C++, Python, and TypeScript—from university coursework to real projects like a chatbot platform, bridging logic with creativity while continuously learning and improving my development skills.
             </p>
           </TiltCard>
         </motion.div>

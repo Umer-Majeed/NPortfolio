@@ -9,6 +9,13 @@ type Project = {
 
 const projects: Project[] = [
   {
+    title: "Gaming Company Website",
+    description:
+      "A website for a gaming company, currently in development.",
+    tech: ["TypeScript", "Next.js"],
+    status: "In Progress",
+  },
+  {
     title: "Chatbot Platform",
     description:
       "A web platform for building and deploying chatbots, currently under active development.",
@@ -34,10 +41,12 @@ const projects: Project[] = [
 export default function Projects() {
   return (
     <section id="projects" className="relative px-6 md:px-16 lg:px-24 py-24">
-      <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-2">
+      <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-2 text-center">
         Projects
       </h2>
-      <p className="text-muted mb-12">Things I&apos;ve built and I&apos;m building.</p>
+      <p className="text-muted mb-12 text-center">
+        Things I&apos;ve built and I&apos;m building.
+      </p>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         {projects.map((project) => (

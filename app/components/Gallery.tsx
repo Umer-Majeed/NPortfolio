@@ -3,7 +3,12 @@
 import { motion } from "framer-motion";
 import HudFrame from "./HudFrame";
 
-const placeholders = [1, 2, 3, 4];
+const works = [
+  { src: "/work-1.jpg", alt: "Social media & education design work" },
+  { src: "/work-2.jpg", alt: "Real estate & product design work" },
+  { src: "/work-3.jpg", alt: "Food & podcast promotional design work" },
+  { src: "/work-4.jpg", alt: "Thumbnails & social media campaign work" },
+];
 
 export default function Gallery() {
   return (
@@ -22,20 +27,32 @@ export default function Gallery() {
       </p>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-10">
-        {placeholders.map((n) => (
-          <motion.div
-            key={n}
+        {works.map((work, i) => (
+          <motion.a
+            key={work.src}
+            href="https://www.behance.net/gallery/208715523/Portfolio"
+            target="_blank"
+            rel="noopener noreferrer"
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, amount: 0.3 }}
-            transition={{ duration: 0.5, delay: n * 0.1 }}
-            className="relative aspect-[3/4] rounded-xl overflow-hidden bg-gradient-to-br from-accent/20 via-card to-background border border-white/5 flex items-center justify-center group"
+            transition={{ duration: 0.5, delay: i * 0.1 }}
+            whileHover={{ scale: 1.03 }}
+            className="relative aspect-[3/4] overflow-hidden border border-white/5 group block"
           >
             <HudFrame />
-            <span className="text-muted text-sm group-hover:text-accent-light transition-colors">
-              Coming Soon
-            </span>
-          </motion.div>
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src={work.src}
+              alt={work.alt}
+              className="w-full h-full object-cover object-top transition-transform duration-500 group-hover:scale-110"
+            />
+            <div className="absolute inset-0 bg-background/0 group-hover:bg-background/40 transition-colors flex items-center justify-center">
+              <span className="opacity-0 group-hover:opacity-100 transition-opacity text-accent-light font-medium tracking-wide">
+                View on Behance
+              </span>
+            </div>
+          </motion.a>
         ))}
       </div>
 
@@ -44,9 +61,9 @@ export default function Gallery() {
           href="https://www.behance.net/gallery/208715523/Portfolio"
           target="_blank"
           rel="noopener noreferrer"
-          className="border border-accent text-accent-light px-6 py-3 rounded-md hover:bg-accent hover:text-background transition-colors"
+          className="border border-accent text-accent-light px-6 py-3 hover:bg-accent hover:text-background transition-colors"
         >
-          View Full Portfolio on Behance &rarr;
+          View Full Portfolio on Behance →
         </a>
       </div>
     </section>
