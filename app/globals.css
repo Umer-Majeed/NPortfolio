@@ -25,3 +25,23 @@ body {
   color: var(--foreground);
   font-family: var(--font-sans), Arial, Helvetica, sans-serif;
 }
+
+/* Mesh Gradient Animations */
+@keyframes mesh-1 {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  50% { transform: translate(60px, 40px) scale(1.1); }
+}
+
+@keyframes mesh-2 {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  50% { transform: translate(-50px, -30px) scale(1.15); }
+}
+
+@keyframes mesh-3 {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  50% { transform: translate(30px, -50px) scale(0.95); }
+}
+
+.animate-mesh-1 { animation: mesh-1 12s ease-in-out infinite; }
+.animate-mesh-2 { animation: mesh-2 15s ease-in-out infinite; }
+.animate-mesh-3 { animation: mesh-3 10s ease-in-out infinite; }
