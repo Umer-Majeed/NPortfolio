@@ -6,7 +6,7 @@ import ParticleBackground from "./components/ParticleBackground";
 import CursorSpotlight from "./components/CursorSpotlight";
 import SmoothScroll from "./components/SmoothScroll";
 import LoadingScreen from "./components/LoadingScreen";
-
+import CustomCursor from "./components/CustomCursor";
 
 const spaceGrotesk = Space_Grotesk({
   variable: "--font-geist-sans",
@@ -36,6 +36,7 @@ export default function RootLayout({
         <MeshGradient />
         <ParticleBackground />
         <CursorSpotlight />
+        <CustomCursor />
         <SmoothScroll>
           {children}
         </SmoothScroll>
