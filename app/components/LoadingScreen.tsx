@@ -18,7 +18,7 @@ export default function LoadingScreen() {
   // 7: Sits up at Bottom-Right floor, wipes sweat + "شکر الحمد لله"
   const [step, setStep] = useState(0);
 
-  const smoothEase = [0.22, 1, 0.36, 1];
+  const smoothEase = [0.22, 1, 0.36, 1] as const;
 
   useEffect(() => {
     // Orchestrated Choreography Timings
