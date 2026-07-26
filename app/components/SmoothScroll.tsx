@@ -10,13 +10,13 @@ export default function SmoothScroll({
 }) {
   useEffect(() => {
     const lenis = new Lenis({
-      duration: 1.0,
-      easing: (t) => 1 - Math.pow(1 - t, 3), // cubic ease-out — natural deceleration
+      duration: 1.8, // 1.2 se barha kar 1.8 kar diya (ziada soft & floaty scroll)
+      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
       orientation: "vertical",
       gestureOrientation: "vertical",
       smoothWheel: true,
-      wheelMultiplier: 1,
-      touchMultiplier: 1.2,
+      wheelMultiplier: 0.8, // Mouse wheel steps ko smooth karne ke liye
+      touchMultiplier: 1.5,
     });
 
     let rafId: number;
@@ -29,7 +29,7 @@ export default function SmoothScroll({
     rafId = requestAnimationFrame(raf);
 
     return () => {
-      cancelAnimationFrame(rafId);
+      cancelAnimationFrame(rafId); // Proper animation cleanup
       lenis.destroy();
     };
   }, []);
