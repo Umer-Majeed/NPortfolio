@@ -26,20 +26,14 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html
-      lang="en"
-      className={`${spaceGrotesk.variable} h-full antialiased`}
-    >
-      
+    <html lang="en" className={`${spaceGrotesk.variable} h-full antialiased`}>
       <body className="min-h-full flex flex-col">
-         <LoadingScreen />
+        <LoadingScreen />
         <MeshGradient />
         <ParticleBackground />
         <CursorSpotlight />
         <CustomCursor />
-     <SmoothScroll>
-          {children}
-        </SmoothScroll>
+        <SmoothScroll>{children}</SmoothScroll>
       </body>
     </html>
   );
