@@ -18,6 +18,19 @@ export const metadata: Metadata = {
   title: "Umer Majeed | Graphic Designer & AI Developer",
   description:
     "Portfolio of Umer Majeed — Graphic Designer, UI/UX Designer, and AI Student showcasing design and development work.",
+  openGraph: {
+    title: "Umer Majeed | Graphic Designer & AI Developer",
+    description:
+      "Portfolio of Umer Majeed — Graphic Designer, UI/UX Designer, and AI Student showcasing design and development work.",
+    images: ["/logo.png"],
+  },
+  twitter: {
+    card: "summary",
+    title: "Umer Majeed | Graphic Designer & AI Developer",
+    description:
+      "Portfolio of Umer Majeed — Graphic Designer, UI/UX Designer, and AI Student showcasing design and development work.",
+    images: ["/logo.png"],
+  },
 };
 
 export default function RootLayout({
