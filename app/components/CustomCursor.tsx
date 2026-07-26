@@ -8,13 +8,13 @@ export default function CustomCursor() {
   const mouseX = useMotionValue(-100);
   const mouseY = useMotionValue(-100);
 
-  // Fast, tight spring — follows the real cursor almost instantly
-  const springX = useSpring(mouseX, { stiffness: 600, damping: 40, mass: 0.4 });
-  const springY = useSpring(mouseY, { stiffness: 600, damping: 40, mass: 0.4 });
+  // Spring physics = real momentum/drag instead of instant snap
+  const springX = useSpring(mouseX, { stiffness: 300, damping: 28, mass: 0.6 });
+  const springY = useSpring(mouseY, { stiffness: 300, damping: 28, mass: 0.6 });
 
-  // Trailing ring — slightly looser, but still snappy (subtle depth, no drag)
-  const trailX = useSpring(mouseX, { stiffness: 300, damping: 35, mass: 0.5 });
-  const trailY = useSpring(mouseY, { stiffness: 300, damping: 35, mass: 0.5 });
+  // Trailing ring lags even more, creating a two-layer depth effect
+  const trailX = useSpring(mouseX, { stiffness: 120, damping: 20, mass: 1 });
+  const trailY = useSpring(mouseY, { stiffness: 120, damping: 20, mass: 1 });
 
   const [mode, setMode] = useState<"default" | "link" | "gallery">("default");
   const [label, setLabel] = useState("");
@@ -50,7 +50,7 @@ export default function CustomCursor() {
       setRipples((prev) => [...prev, { x: e.clientX, y: e.clientY, id }]);
       setTimeout(() => {
         setRipples((prev) => prev.filter((r) => r.id !== id));
-      }, 500);
+      }, 600);
     }
 
     window.addEventListener("mousemove", handleMouseMove);
@@ -69,27 +69,27 @@ export default function CustomCursor() {
 
   return (
     <div className="fixed inset-0 z-[200] pointer-events-none hidden md:block">
-      {/* Outer ring — subtle depth layer, stays close to main cursor */}
+      {/* Outer lagging ring — depth layer */}
       <motion.div
         style={{ x: trailX, y: trailY }}
         className="absolute top-0 left-0"
       >
         <motion.div
           animate={{
-            width: size + 20,
-            height: size + 20,
-            opacity: mode === "default" ? 0.2 : 0.45,
+            width: size + 24,
+            height: size + 24,
+            opacity: mode === "default" ? 0.25 : 0.5,
           }}
-          transition={{ type: "spring", stiffness: 400, damping: 30 }}
+          transition={{ type: "spring", stiffness: 200, damping: 22 }}
           className="absolute -translate-x-1/2 -translate-y-1/2 rounded-full border border-accent-light"
         />
       </motion.div>
 
-      {/* Main cursor — near-instant tracking */}
+      {/* Main cursor — fast layer */}
       <motion.div style={{ x: springX, y: springY }} className="absolute top-0 left-0">
         <motion.div
           animate={{ width: size, height: size }}
-          transition={{ type: "spring", stiffness: 500, damping: 32 }}
+          transition={{ type: "spring", stiffness: 300, damping: 24 }}
           className="absolute -translate-x-1/2 -translate-y-1/2 rounded-full bg-accent-light/15 backdrop-blur-sm border border-accent-light/70 flex items-center justify-center overflow-hidden"
         >
           <AnimatePresence mode="wait">
@@ -99,7 +99,6 @@ export default function CustomCursor() {
                 initial={{ scale: 0 }}
                 animate={{ scale: 1 }}
                 exit={{ scale: 0 }}
-                transition={{ duration: 0.15 }}
                 className="w-1.5 h-1.5 rounded-full bg-accent-light"
               />
             )}
@@ -109,7 +108,6 @@ export default function CustomCursor() {
                 initial={{ scale: 0, rotate: -90 }}
                 animate={{ scale: 1, rotate: 0 }}
                 exit={{ scale: 0, rotate: 90 }}
-                transition={{ duration: 0.15 }}
               >
                 <Eye size={20} className="text-accent-light" />
               </motion.div>
@@ -120,7 +118,6 @@ export default function CustomCursor() {
                 initial={{ scale: 0, rotate: -90 }}
                 animate={{ scale: 1, rotate: 0 }}
                 exit={{ scale: 0, rotate: 90 }}
-                transition={{ duration: 0.15 }}
               >
                 {label === "OPEN" ? (
                   <ArrowUpRight size={18} className="text-accent-light" />
@@ -138,7 +135,6 @@ export default function CustomCursor() {
               initial={{ opacity: 0, y: 5 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: 5 }}
-              transition={{ duration: 0.15 }}
               style={{ top: size / 2 + 14 }}
               className="absolute left-1/2 -translate-x-1/2 text-[10px] tracking-[0.25em] text-accent-light font-mono whitespace-nowrap bg-background/70 backdrop-blur-sm px-2 py-1 rounded border border-accent-light/20"
             >
@@ -153,7 +149,7 @@ export default function CustomCursor() {
           key={ripple.id}
           initial={{ width: 0, height: 0, opacity: 0.6 }}
           animate={{ width: 80, height: 80, opacity: 0 }}
-          transition={{ duration: 0.5, ease: "easeOut" }}
+          transition={{ duration: 0.6, ease: "easeOut" }}
           style={{
             position: "absolute",
             top: ripple.y,
