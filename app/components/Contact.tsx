@@ -59,8 +59,69 @@ export default function Contact() {
   return (
     <section
       id="contact"
-      className="relative px-6 md:px-16 lg:px-24 py-32 flex flex-col items-center text-center"
+      className="relative px-6 md:px-16 lg:px-24 py-32 flex flex-col items-center text-center overflow-hidden"
     >
+      {/* Floating Logo Decorations */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+        {[
+          { top: "58%", left: "3%", size: 38, delay: 0, xRange: [-12, 15, -8], yRange: [-15, 10, -15], dur: 4.5 },
+          { top: "78%", left: "7%", size: 26, delay: 0.6, xRange: [10, -14, 12], yRange: [-10, 15, -10], dur: 5.2 },
+          { top: "82%", left: "16%", size: 32, delay: 1.2, xRange: [-15, 8, -12], yRange: [12, -12, 12], dur: 3.8 },
+          { top: "65%", left: "21%", size: 22, delay: 1.8, xRange: [8, -10, 15], yRange: [-8, 12, -8], dur: 4.9 },
+          { top: "58%", right: "3%", size: 38, delay: 0.3, xRange: [12, -15, 8], yRange: [15, -10, 15], dur: 4.2 },
+          { top: "78%", right: "7%", size: 26, delay: 0.9, xRange: [-10, 14, -12], yRange: [10, -15, 10], dur: 5.5 },
+          { top: "82%", right: "16%", size: 32, delay: 1.5, xRange: [15, -8, 12], yRange: [-12, 12, -12], dur: 4.0 },
+          { top: "65%", right: "21%", size: 22, delay: 2.1, xRange: [-8, 10, -15], yRange: [8, -12, 8], dur: 4.7 },
+        ].map((logo, i) => (
+          <motion.img
+            key={i}
+            src="/logo.png"
+            alt=""
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 0.1 }}
+            viewport={{ once: true }}
+            animate={{
+              x: logo.xRange,
+              y: logo.yRange,
+              rotate: [-5, 5, -5],
+            }}
+            transition={{
+              opacity: { duration: 0.8, delay: logo.delay },
+              x: {
+                duration: logo.dur,
+                repeat: Infinity,
+                repeatType: "mirror",
+                ease: "easeInOut",
+                delay: logo.delay,
+              },
+              y: {
+                duration: logo.dur * 1.1,
+                repeat: Infinity,
+                repeatType: "mirror",
+                ease: "easeInOut",
+                delay: logo.delay,
+              },
+              rotate: {
+                duration: logo.dur * 1.3,
+                repeat: Infinity,
+                repeatType: "mirror",
+                ease: "easeInOut",
+                delay: logo.delay,
+              },
+            }}
+            style={{
+              position: "absolute",
+              top: logo.top,
+              left: "left" in logo ? logo.left : undefined,
+              right: "right" in logo ? logo.right : undefined,
+              width: logo.size,
+              height: logo.size,
+            }}
+            className="object-contain"
+          />
+        ))}
+      </div>
+
       <motion.p
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
@@ -99,7 +160,7 @@ export default function Contact() {
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true, amount: 0.3 }}
         transition={{ duration: 0.6, delay: 0.3 }}
-        className="w-full max-w-md flex flex-col gap-4 mb-14 text-left"
+        className="w-full max-w-md flex flex-col gap-4 mb-14 text-left z-10"
       >
         <div>
           <label className="text-muted text-xs tracking-wide uppercase mb-1 block">
@@ -168,7 +229,7 @@ export default function Contact() {
         </MagneticButton>
       </motion.form>
 
-      <div className="flex gap-6">
+      <div className="flex gap-6 z-10">
         {socials.map((social) => {
           const Icon = social.icon;
           return (
@@ -183,8 +244,8 @@ export default function Contact() {
         })}
       </div>
 
-      <p className="text-muted/50 text-xs mt-16">
-        © 2026 Umer Majeed | Tri Unity Alpha 
+      <p className="text-muted/50 text-xs mt-16 z-10">
+        © 2026 Umer Majeed | Tri Unity Alpha
       </p>
     </section>
   );
