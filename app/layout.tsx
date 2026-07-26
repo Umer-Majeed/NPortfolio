@@ -36,7 +36,7 @@ export default function RootLayout({
         <MeshGradient />
         <ParticleBackground />
         <CursorSpotlight />
-        <CustomCursor />7
+        <CustomCursor />
      <SmoothScroll>
           {children}
         </SmoothScroll>
