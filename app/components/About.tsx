@@ -283,7 +283,7 @@ export default function About() {
           <FlipCard
             side="right"
             tag="The Developer"
-            title="AI Student & Developer"
+            title="AI Student & Coder"
             description="Currently pursuing a BS in Artificial Intelligence at FUUAST (2025–Present). I build with C++, Python, and TypeScript—from university coursework to real projects like a chatbot platform, bridging logic with creativity while continuously learning and improving my development skills."
             floatingItems={[
               {
