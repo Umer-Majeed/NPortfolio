@@ -140,34 +140,32 @@ export default function Contact() {
           />
         </div>
 
-        <motion.button
+        <MagneticButton
           type="submit"
           disabled={status === "sending"}
-          whileHover={{ scale: status === "idle" ? 1.02 : 1 }}
-          whileTap={{ scale: status === "idle" ? 0.98 : 1 }}
-          className="inline-flex items-center justify-center gap-2 border border-accent text-accent-light px-6 py-3 rounded-md hover:bg-accent hover:text-background transition-colors text-sm font-medium disabled:opacity-60"
+          className="inline-block border border-accent text-accent-light px-6 py-3 rounded-md hover:bg-accent hover:text-background transition-colors text-sm font-medium disabled:opacity-60 cursor-pointer text-center"
         >
           {status === "sending" && (
-            <>
+            <span className="inline-flex items-center justify-center gap-2">
               <Loader2 size={16} className="animate-spin" /> Sending...
-            </>
+            </span>
           )}
           {status === "success" && (
-            <>
+            <span className="inline-flex items-center justify-center gap-2">
               <CheckCircle2 size={16} /> Message Sent!
-            </>
+            </span>
           )}
           {status === "error" && (
-            <>
+            <span className="inline-flex items-center justify-center gap-2">
               <XCircle size={16} /> Failed — Try Again
-            </>
+            </span>
           )}
           {status === "idle" && (
-            <>
+            <span className="inline-flex items-center justify-center gap-2">
               <Send size={16} /> Send Message
-            </>
+            </span>
           )}
-        </motion.button>
+        </MagneticButton>
       </motion.form>
 
       <div className="flex gap-6">
@@ -186,7 +184,7 @@ export default function Contact() {
       </div>
 
       <p className="text-muted/50 text-xs mt-16">
-        © 2026 Umer Majeed. Built with Next.js, Tailwind &amp; Three.js.
+        © 2026 Umer Majeed | Tri Unity Alpha 
       </p>
     </section>
   );

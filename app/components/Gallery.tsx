@@ -1,5 +1,5 @@
 "use client";
-
+import MagneticButton from "./MagneticButton";
 import { motion } from "framer-motion";
 import HudFrame from "./HudFrame";
 
@@ -57,14 +57,12 @@ export default function Gallery() {
       </div>
 
       <div className="flex justify-center">
-        <a
+        <MagneticButton
           href="https://www.behance.net/gallery/208715523/Portfolio"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="border border-accent text-accent-light px-6 py-3 hover:bg-accent hover:text-background transition-colors"
+          className="inline-block border border-accent text-accent-light px-6 py-3 rounded-md hover:bg-accent hover:text-background transition-colors"
         >
           View Full Portfolio on Behance →
-        </a>
+        </MagneticButton>
       </div>
     </section>
   );
