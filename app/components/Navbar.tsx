@@ -31,18 +31,25 @@ export default function Navbar() {
         scrolled ? "bg-background/70 backdrop-blur-md border-b border-white/5" : ""
       }`}
     >
-      <a href="#" className="text-foreground font-bold text-lg tracking-tight">
-        UM<span className="text-accent-light">.</span>
+      <a href="#" className="flex items-center">
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
+          src="/logo.png"
+          alt="Umer Majeed logo"
+          className="h-9 w-9 object-contain"
+        />
       </a>
 
       <div className="hidden md:flex gap-8">
         {links.map((link) => (
           <a
+          
             key={link.label}
             href={link.href}
             className="text-muted text-sm hover:text-accent-light transition-colors"
           >
             {link.label}
+
           </a>
         ))}
       </div>
