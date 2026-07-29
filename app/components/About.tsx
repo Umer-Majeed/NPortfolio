@@ -91,7 +91,7 @@ function FloatingTag({
         ease: "easeInOut",
         delay,
       }}
-      className={`absolute z-30 pointer-events-none px-2.5 py-1 text-xs rounded-none border bg-card/95 border-white/10 text-muted backdrop-blur-md shadow-xl ${className}`}
+      className={`absolute z-35 pointer-events-none px-2.5 py-1 text-xs rounded-none border bg-card/95 border-white/10 text-muted backdrop-blur-md shadow-xl ${className}`}
     >
       {children}
     </motion.div>
@@ -111,7 +111,6 @@ function FlipCard({ side, tag, title, description, floatingItems }: FlipCardProp
   const [isInViewFlipped, setIsInViewFlipped] = useState(false);
   const isLeft = side === "left";
 
-  // PC par hover state, Mobile par scroll-triggered view state
   const isFlipped = isHovered || isInViewFlipped;
 
   return (
@@ -121,7 +120,6 @@ function FlipCard({ side, tag, title, description, floatingItems }: FlipCardProp
       className="relative w-full h-[320px] md:h-[350px] cursor-pointer perspective-1000 group"
     >
       <motion.div
-        // Mobile ke liye view trigger, PC ke liye hover trigger
         whileInView={{ rotateY: 180 }}
         onViewportEnter={() => setIsInViewFlipped(true)}
         onViewportLeave={() => setIsInViewFlipped(false)}
@@ -161,7 +159,7 @@ function FlipCard({ side, tag, title, description, floatingItems }: FlipCardProp
             WebkitBackfaceVisibility: "hidden",
             transform: "rotateY(180deg)",
           }}
-          className="absolute inset-0 p-6 flex flex-col justify-between overflow-hidden rounded-none bg-card/70 backdrop-blur-md border border-accent/40"
+          className="absolute inset-0 p-6 flex flex-col justify-between overflow-hidden rounded-none bg-card/70 backdrop-blur-md border border-accent/40 z-20"
         >
           <HudFrame />
 
@@ -176,7 +174,7 @@ function FlipCard({ side, tag, title, description, floatingItems }: FlipCardProp
             </FloatingTag>
           ))}
 
-          <div className="relative z-10">
+          <div className="relative z-30">
             <div className="flex justify-between items-center mb-3">
               <span className="text-xs px-2 py-1 rounded-none bg-accent/20 text-accent-light">
                 {isLeft ? "Creative Profile" : "Technical Profile"}
@@ -192,7 +190,7 @@ function FlipCard({ side, tag, title, description, floatingItems }: FlipCardProp
             </p>
           </div>
 
-          <div className="relative z-10 text-left text-xs font-mono text-muted">
+          <div className="relative z-30 text-left text-xs font-mono text-muted">
             [ {isLeft ? "DESIGN_MATRIX" : "DEV_SYSTEM"} ]
           </div>
         </div>
@@ -297,8 +295,9 @@ export default function About() {
                 delay: 0,
               },
               {
+                // Tag left side par hi rahega (`left-6`) lekin max-width aur text truncate/wrap control kar di hai taake mesh hand tak na jaye
                 label: "⚡ Python, C++, TypeScript",
-                positionClass: "bottom-12 left-6",
+                positionClass: "bottom-3 right-3 md:bottom-12 md:left-6 max-w-[200px] md:max-w-[220px] truncate",
                 delay: 0.3,
               },
             ]}
