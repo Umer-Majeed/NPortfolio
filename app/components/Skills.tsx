@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 
 type Skill = {
@@ -120,6 +120,16 @@ const coreSkill: Skill = {
 
 export default function Skills() {
   const [activeSkill, setActiveSkill] = useState<Skill | null>(null);
+  const [isMobile, setIsMobile] = useState<boolean>(false);
+
+  useEffect(() => {
+    const checkScreen = () => {
+      setIsMobile(window.innerWidth < 1024);
+    };
+    checkScreen();
+    window.addEventListener("resize", checkScreen);
+    return () => window.removeEventListener("resize", checkScreen);
+  }, []);
 
   return (
     <section id="skills" className="relative px-6 md:px-12 lg:px-20 py-28 overflow-hidden">
@@ -133,14 +143,14 @@ export default function Skills() {
         Skills Universe
       </motion.h2>
       <p className="text-muted mb-12 text-center z-20 relative">
-        Hover over any orbiting planet to inspect detailed proficiency metrics on the left panel.
+        {!isMobile ? "Hover over any orbiting planet to inspect detailed proficiency metrics on the left panel." : "Tap any skill badge below to inspect detailed proficiency metrics."}
       </p>
 
       {/* Main Grid Layout */}
       <div className="w-full max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 items-center gap-8">
         
         {/* Left Side: Info Card Panel */}
-        <div className="lg:col-span-4 z-30 flex justify-center lg:justify-start">
+        <div className="lg:col-span-4 z-30 flex justify-center lg:justify-start order-2 lg:order-1">
           <AnimatePresence mode="wait">
             {activeSkill ? (
               <motion.div
@@ -200,111 +210,136 @@ export default function Skills() {
                 </div>
                 <h4 className="text-sm font-bold text-foreground mb-1">Explore Planets</h4>
                 <p className="text-muted text-xs">
-                  Hover your mouse over any orbiting sphere to inspect skill insights.
+                  {!isMobile ? "Hover your mouse over any orbiting sphere" : "Tap any skill badge"} to inspect skill insights.
                 </p>
               </motion.div>
             )}
           </AnimatePresence>
         </div>
 
-        {/* Right Side: Orbit Universe Stage */}
-        <div className="lg:col-span-8 relative w-full h-[500px] flex items-center justify-center overflow-visible">
+        {/* Right Side: Dynamic Viewport Switcher */}
+        <div className="lg:col-span-8 relative w-full flex items-center justify-center order-1 lg:order-2">
           
-          {/* Central Sun / Core Hub with Hover Event */}
-          <div className="absolute z-20 flex flex-col items-center justify-center">
-            <motion.div
-              whileHover={{ scale: 1.1 }}
-              onMouseEnter={() => setActiveSkill(coreSkill)}
-              className="w-20 h-20 rounded-full bg-gradient-to-tr from-amber-500 to-orange-500 flex items-center justify-center text-background font-bold shadow-lg cursor-pointer z-20"
-            >
-              <span className="text-[11px] uppercase tracking-widest text-white font-extrabold">
-                CORE
-              </span>
-            </motion.div>
-          </div>
+          {isMobile ? (
+            /* MOBILE STATIC VIEW */
+            <div className="w-full py-2">
+              <div className="grid grid-cols-2 gap-3 max-w-md mx-auto">
+                <div 
+                  onClick={() => setActiveSkill(coreSkill)}
+                  className="col-span-2 bg-gradient-to-r from-amber-500/20 to-orange-500/20 border border-amber-500/30 rounded-xl p-3 text-center cursor-pointer active:scale-95 transition-transform flex items-center justify-center gap-3"
+                >
+                  <div className="w-8 h-8 rounded-full bg-gradient-to-tr from-amber-500 to-orange-500 flex items-center justify-center text-white text-xs font-bold shadow-md">
+                    CORE
+                  </div>
+                  <span className="text-xs font-bold text-foreground">Core Hub (AI & Design)</span>
+                </div>
 
-          {/* Orbit Rings Container */}
-          <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-            {skills.map((skill, index) => {
-              return (
-                <div key={skill.name} className="absolute pointer-events-none">
-                  {/* Circular Orbit Ring Track */}
+                {skills.map((skill) => (
                   <div
-                    className="absolute rounded-full border-[1.5px] opacity-25 -translate-x-1/2 -translate-y-1/2"
-                    style={{
-                      borderColor: skill.orbitColor,
-                      width: `${skill.radius * 2}px`,
-                      height: `${skill.radius * 2}px`,
-                    }}
-                  />
-
-                  {/* Orbit Rotation Wrapper */}
-                  <div
-                    className="absolute top-0 left-0"
-                    style={{
-                      animation: `spinOrbit ${skill.duration}s linear infinite`,
-                      animationDelay: `-${(index * skill.duration) / skills.length}s`,
-                    }}
+                    key={skill.name}
+                    onClick={() => setActiveSkill(skill)}
+                    className="bg-card/60 backdrop-blur-md border border-white/10 rounded-xl p-3 flex flex-col items-center text-center cursor-pointer active:scale-95 transition-all hover:border-white/30"
                   >
                     <div
-                      className="absolute"
+                      className="w-10 h-10 rounded-full flex items-center justify-center font-bold text-xs text-white shadow-md mb-2"
                       style={{
-                        transform: `translate(${skill.radius}px)`,
+                        background: `radial-gradient(circle at 30% 30%, ${skill.color}, #111 85%)`,
+                        boxShadow: `0 0 10px ${skill.color}aa`,
                       }}
                     >
-                      {/* Counter-Rotation to keep Planet Spheres Clean and Upright */}
+                      {skill.level}%
+                    </div>
+                    <span className="text-[11px] font-semibold text-foreground line-clamp-1">{skill.name}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          ) : (
+            /* PC FRAMER MOTION ORBIT ANIMATION VIEW */
+            <div className="relative w-full h-[500px] flex items-center justify-center overflow-visible">
+              
+              {/* Central Sun / Core Hub with Hover Event */}
+              <div className="absolute z-20 flex flex-col items-center justify-center">
+                <motion.div
+                  whileHover={{ scale: 1.1 }}
+                  onMouseEnter={() => setActiveSkill(coreSkill)}
+                  className="w-20 h-20 rounded-full bg-gradient-to-tr from-amber-500 to-orange-500 flex items-center justify-center text-background font-bold shadow-lg cursor-pointer z-20"
+                >
+                  <span className="text-[11px] uppercase tracking-widest text-white font-extrabold">
+                    CORE
+                  </span>
+                </motion.div>
+              </div>
+
+              {/* Orbit Rings Container */}
+              <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+                {skills.map((skill) => {
+                  return (
+                    <div key={skill.name} className="absolute pointer-events-none">
+                      {/* Circular Orbit Ring Track */}
                       <div
-                        className="absolute -translate-x-1/2 -translate-y-1/2"
+                        className="absolute rounded-full border-[1.5px] opacity-25 -translate-x-1/2 -translate-y-1/2"
                         style={{
-                          animation: `counterSpin ${skill.duration}s linear infinite`,
-                          animationDelay: `-${(index * skill.duration) / skills.length}s`,
+                          borderColor: skill.orbitColor,
+                          width: `${skill.radius * 2}px`,
+                          height: `${skill.radius * 2}px`,
+                        }}
+                      />
+
+                      {/* Framer Motion Rotation Wrapper */}
+                      <motion.div
+                        className="absolute top-0 left-0"
+                        animate={{ rotate: 360 }}
+                        transition={{
+                          duration: skill.duration,
+                          repeat: Infinity,
+                          ease: "linear",
                         }}
                       >
-                        <div className="flex flex-col items-center pointer-events-auto">
+                        <div
+                          className="absolute"
+                          style={{
+                            transform: `translate(${skill.radius}px)`,
+                          }}
+                        >
+                          {/* Counter-Rotation to keep Planet Spheres Clean and Upright */}
                           <motion.div
-                            whileHover={{ scale: 1.25 }}
-                            onMouseEnter={() => setActiveSkill(skill)}
-                            className="rounded-full cursor-pointer flex items-center justify-center font-bold text-[10px] text-white shadow-md transition-transform z-10"
-                            style={{
-                              width: `${skill.size}px`,
-                              height: `${skill.size}px`,
-                              background: `radial-gradient(circle at 30% 30%, ${skill.color}, #111 85%)`,
-                              boxShadow: `0 0 12px ${skill.color}aa`,
+                            className="absolute -translate-x-1/2 -translate-y-1/2"
+                            animate={{ rotate: -360 }}
+                            transition={{
+                              duration: skill.duration,
+                              repeat: Infinity,
+                              ease: "linear",
                             }}
                           >
-                            <span className="drop-shadow-sm">{skill.level}%</span>
+                            <div className="flex flex-col items-center pointer-events-auto">
+                              <motion.div
+                                whileHover={{ scale: 1.25 }}
+                                onMouseEnter={() => setActiveSkill(skill)}
+                                className="rounded-full cursor-pointer flex items-center justify-center font-bold text-[10px] text-white shadow-md transition-transform z-10"
+                                style={{
+                                  width: `${skill.size}px`,
+                                  height: `${skill.size}px`,
+                                  background: `radial-gradient(circle at 30% 30%, ${skill.color}, #111 85%)`,
+                                  boxShadow: `0 0 12px ${skill.color}aa`,
+                                }}
+                              >
+                                <span className="drop-shadow-sm">{skill.level}%</span>
+                              </motion.div>
+                            </div>
                           </motion.div>
                         </div>
-                      </div>
+                      </motion.div>
                     </div>
-                  </div>
-                </div>
-              );
-            })}
-          </div>
+                  );
+                })}
+              </div>
+            </div>
+          )}
+
         </div>
 
       </div>
-
-      {/* CSS Keyframes for Clean Rotation */}
-      <style jsx global>{`
-        @keyframes spinOrbit {
-          from {
-            transform: rotate(0deg);
-          }
-          to {
-            transform: rotate(360deg);
-          }
-        }
-        @keyframes counterSpin {
-          from {
-            transform: rotate(0deg);
-          }
-          to {
-            transform: rotate(-360deg);
-          }
-        }
-      `}</style>
     </section>
   );
 }
