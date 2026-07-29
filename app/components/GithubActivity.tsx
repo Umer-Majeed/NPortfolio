@@ -24,15 +24,19 @@ export default function GithubActivity() {
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true, amount: 0.3 }}
         transition={{ duration: 0.6 }}
-        className="relative bg-card/40 backdrop-blur-sm border border-white/5 p-6 md:p-10 overflow-x-auto"
+        className="relative bg-card/40 backdrop-blur-sm border border-white/5 p-6 md:p-10 overflow-hidden"
       >
         <HudFrame />
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img
-          src="https://ghchart.rshah.org/a855f7/Umer-Majeed"
-          alt="Umer Majeed's GitHub contribution chart"
-          className="w-full min-w-[600px]"
-        />
+        
+        {/* Scrollable Container for Chart only - HudFrame will stay fixed */}
+        <div className="overflow-x-auto pb-2 scrollbar-thin scrollbar-thumb-accent/20 scrollbar-track-transparent">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src="https://ghchart.rshah.org/a855f7/Umer-Majeed"
+            alt="Umer Majeed's GitHub contribution chart"
+            className="w-full min-w-[600px] block"
+          />
+        </div>
       </motion.div>
 
       <div className="flex justify-center mt-8">
