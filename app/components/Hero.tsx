@@ -44,7 +44,7 @@ export default function Hero() {
             transition={{ duration: 0.6, delay: 0.55 }}
             className="text-muted max-w-xl text-base md:text-lg mb-8"
           >
-            I&ap  os;m a Graphic Designer &amp; UI/UX Designer who also codes in
+            I&apos;m a Graphic Designer &amp; UI/UX Designer who also codes in
             C++, Python, and TypeScript. Currently pursuing a BS in
             Artificial Intelligence at FUUAST, I bring together visual
             design and technical development to build meaningful digital
