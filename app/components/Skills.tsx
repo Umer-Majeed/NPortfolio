@@ -226,8 +226,6 @@ export default function Skills() {
           {/* Orbit Rings Container */}
           <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
             {skills.map((skill, index) => {
-              const startAngle = index * (360 / skills.length);
-
               return (
                 <div key={skill.name} className="absolute pointer-events-none">
                   {/* Circular Orbit Ring Track */}
@@ -251,7 +249,7 @@ export default function Skills() {
                     <div
                       className="absolute"
                       style={{
-                        transform: `rotate(${startAngle}deg) translate(${skill.radius}px)`,
+                        transform: `translate(${skill.radius}px)`,
                       }}
                     >
                       {/* Counter-Rotation to keep Planet Spheres Clean and Upright */}
