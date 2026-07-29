@@ -91,7 +91,7 @@ export default function LoadingScreen() {
     1: { x: 520, y: 310, rotate: 75 },
     2: { x: 520, y: 310, rotate: 75 },
     3: { x: 520, y: 310, rotate: 75 },
-    4: { x: 580, y: 180, rotate: 0 },
+    4: { x: 552, y: 180, rotate: 0 },
   };
 
   const sparkVariants: Variants = {
@@ -139,6 +139,8 @@ export default function LoadingScreen() {
                 x="400"
                 y="180"
                 textAnchor="middle"
+                textLength="300"
+                lengthAdjust="spacingAndGlyphs"
                 className="font-black text-4xl sm:text-5xl tracking-[0.2em]"
                 style={{ fontStyle: "normal" }}
                 animate={
@@ -184,7 +186,7 @@ export default function LoadingScreen() {
                     ease: [0.16, 1, 0.3, 1],
                     opacity: { times: [0, 0.05, 0.1, 0.2, 0.4, 1], duration: 0.9 },
                   }}
-                  x="595"
+                  x="552"
                   y="180"
                   className="fill-purple-400 font-black text-4xl sm:text-5xl"
                 >
