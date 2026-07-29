@@ -190,7 +190,8 @@ function FlipCard({ side, tag, title, description, floatingItems }: FlipCardProp
             </p>
           </div>
 
-          <div className="relative z-30 text-left text-xs font-mono text-muted">
+          {/* Mobile par left-aligned, aur PC (md+) par right-aligned */}
+          <div className={`relative z-30 text-xs font-mono text-muted ${isLeft ? "text-left md:text-right" : "text-left"}`}>
             [ {isLeft ? "DESIGN_MATRIX" : "DEV_SYSTEM"} ]
           </div>
         </div>
@@ -295,7 +296,6 @@ export default function About() {
                 delay: 0,
               },
               {
-                // Tag left side par hi rahega (`left-6`) lekin max-width aur text truncate/wrap control kar di hai taake mesh hand tak na jaye
                 label: "⚡ Python, C++, TypeScript",
                 positionClass: "bottom-3 right-3 md:bottom-12 md:left-6 max-w-[200px] md:max-w-[220px] truncate",
                 delay: 0.3,
