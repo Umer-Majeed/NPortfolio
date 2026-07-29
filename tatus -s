@@ -1,0 +1,334 @@
+[1mdiff --git a/app/components/Skills.tsx b/app/components/Skills.tsx[m
+[1mindex 65082ea..713a5dd 100644[m
+[1m--- a/app/components/Skills.tsx[m
+[1m+++ b/app/components/Skills.tsx[m
+[36m@@ -1,345 +1,690 @@[m
+ "use client";[m
+ [m
+[32m+[m
+[32m+[m
+ import { useState, useEffect } from "react";[m
+[32m+[m
+ import { motion, AnimatePresence } from "framer-motion";[m
+ [m
+[32m+[m
+[32m+[m
+ type Skill = {[m
+[32m+[m
+   name: string;[m
+[32m+[m
+   level: number;[m
+[32m+[m
+   color: string;[m
+[32m+[m
+   orbitColor: string;[m
+[32m+[m
+   radius: number;[m
+[32m+[m
+   duration: number;[m
+[32m+[m
+   size: number;[m
+[32m+[m
+   description: string;[m
+[32m+[m
+   category: string;[m
+[32m+[m
+ };[m
+ [m
+[32m+[m
+[32m+[m
+ const skills: Skill[] = [[m
+[31m-  { [m
+[31m-    name: "Adobe Illustrator", [m
+[31m-    level: 90, [m
+[31m-    color: "#f97316", [m
+[31m-    orbitColor: "#f97316", [m
+[31m-    radius: 80, [m
+[31m-    duration: 18, [m
+[32m+[m
+[32m+[m[32m  {[m
+[32m+[m
+[32m+[m[32m    name: "Adobe Illustrator",[m
+[32m+[m
+[32m+[m[32m    level: 90,[m
+[32m+[m
+[32m+[m[32m    color: "#f97316",[m
+[32m+[m
+[32m+[m[32m    orbitColor: "#f97316",[m
+[32m+[m
+[32m+[m[32m    radius: 80,[m
+[32m+[m
+[32m+[m[32m    duration: 18,[m
+[32m+[m
+     size: 40,[m
+[32m+[m
+     category: "Graphic Design",[m
+[32m+[m
+     description: "Expert in vector illustrations, custom typography, branding assets, and scalable vector graphics for modern UI interfaces."[m
+[32m+[m
+   },[m
+[31m-  { [m
+[31m-    name: "Photoshop", [m
+[31m-    level: 85, [m
+[31m-    color: "#38bdf8", [m
+[31m-    orbitColor: "#38bdf8", [m
+[31m-    radius: 125, [m
+[31m-    duration: 22, [m
+[32m+[m
+[32m+[m[32m  {[m
+[32m+[m
+[32m+[m[32m    name: "Photoshop",[m
+[32m+[m
+[32m+[m[32m    level: 85,[m
+[32m+[m
+[32m+[m[32m    color: "#38bdf8",[m
+[32m+[m
+[32m+[m[32m    orbitColor: "#38bdf8",[m
+[32m+[m
+[32m+[m[32m    radius: 125,[m
+[32m+[m
+[32m+[m[32m    duration: 22,[m
+[32m+[m
+     size: 36,[m
+[32m+[m
+     category: "Visual Arts",[m
+[32m+[m
+     description: "Advanced photo manipulation, digital painting, texture creation, and high-fidelity asset preparation for web and print."[m
+[32m+[m
+   },[m
+[31m-  { [m
+[31m-    name: "UI/UX Design", [m
+[31m-    level: 85, [m
+[31m-    color: "#a855f7", [m
+[31m-    orbitColor: "#a855f7", [m
+[31m-    radius: 170, [m
+[31m-    duration: 26, [m
+[32m+[m
+[32m+[m[32m  {[m
+[32m+[m
+[32m+[m[32m    name: "UI/UX Design",[m
+[32m+[m
+[32m+[m[32m    level: 85,[m
+[32m+[m
+[32m+[m[32m    color: "#a855f7",[m
+[32m+[m
+[32m+[m[32m    orbitColor: "#a855f7",[m
+[32m+[m
+[32m+[m[32m    radius: 170,[m
+[32m+[m
+[32m+[m[32m    duration: 26,[m
+[32m+[m
+     size: 36,[m
+[32m+[m
+     category: "Product Design",[m
+[32m+[m
+     description: "Designing intuitive user flows, wireframes, modern dashboard interfaces, and interactive prototypes with stellar user experience."[m
+[32m+[m
+   },[m
+[31m-  { [m
+[31m-    name: "Figma / Canva", [m
+[31m-    level: 88, [m
+[31m-    color: "#ec4899", [m
+[31m-    orbitColor: "#ec4899", [m
+[31m-    radius: 215, [m
+[31m-    duration: 30, [m
+[32m+[m
+[32m+[m[32m  {[m
+[32m+[m
+[32m+[m[32m    name: "Figma / Canva",[m
+[32m+[m
+[32m+[m[32m    level: 88,[m
+[32m+[m
+[32m+[m[32m    color: "#ec4899",[m
+[32m+[m
+[32m+[m[32m    orbitColor: "#ec4899",[m
+[32m+[m
+[32m+[m[32m    radius: 215,[m
+[32m+[m
+[32m+[m[32m    duration: 30,[m
+[32m+[m
+     size: 38,[m
+[32m+[m
+     category: "Collaboration Tools",[m
+[32m+[m
+     description: "Rapid component-based design systems, auto-layout mastery, interactive prototyping, and collaborative workspace management."[m
+[32m+[m
+   },[m
+[31m-  { [m
+[31m-    name: "Python", [m
+[31m-    level: 70, [m
+[31m-    color: "#eab308", [m
+[31m-    orbitColor: "#eab308", [m
+[31m-    radius: 260, [m
+[31m-    duration: 34, [m
+[32m+[m
+[32m+[m[32m  {[m
+[32m+[m
+[32m+[m[32m    name: "Python",[m
+[32m+[m
+[32m+[m[32m    level: 70,[m
+[32m+[m
+[32m+[m[32m    color: "#eab308",[m
+[32m+[m
+[32m+[m[32m    orbitColor: "#eab308",[m
+[32m+[m
+[32m+[m[32m    radius: 260,[m
+[32m+[m
+[32m+[m[32m    duration: 34,[m
+[32m+[m
+     size: 34,[m
+[32m+[m
+     category: "Programming",[m
+[32m+[m
+     description: "Backend scripting, data analysis workflows, automation scripts, and integration with machine learning model architectures."[m
+[32m+[m
+   },[m
+[31m-  { [m
+[31m-    name: "C++", [m
+[31m-    level: 65, [m
+[31m-    color: "#6366f1", [m
+[31m-    orbitColor: "#6366f1", [m
+[31m-    radius: 305, [m
+[31m-    duration: 38, [m
+[32m+[m
+[32m+[m[32m  {[m
+[32m+[m
+[32m+[m[32m    name: "C++",[m
+[32m+[m
+[32m+[m[32m    level: 65,[m
+[32m+[m
+[32m+[m[32m    color: "#6366f1",[m
+[32m+[m
+[32m+[m[32m    orbitColor: "#6366f1",[m
+[32m+[m
+[32m+[m[32m    radius: 305,[m
+[32m+[m
+[32m+[m[32m    duration: 38,[m
+[32m+[m
+     size: 32,[m
+[32m+[m
+     category: "Core Engineering",[m
+[32m+[m
+     description: "Object-oriented programming principles, algorithmic problem solving, and performance-critical system development."[m
+[32m+[m
+   },[m
+[31m-  { [m
+[31m-    name: "TypeScript", [m
+[31m-    level: 60, [m
+[31m-    color: "#06b6d4", [m
+[31m-    orbitColor: "#06b6d4", [m
+[31m-    radius: 350, [m
+[31m-    duration: 42, [m
+[32m+[m
+[32m+[m[32m  {[m
+[32m+[m
+[32m+[m[32m    name: "TypeScript",[m
+[32m+[m
+[32m+[m[32m    level: 60,[m
+[32m+[m
+[32m+[m[32m    color: "#06b6d4",[m
+[32m+[m
+[32m+[m[32m    orbitColor: "#06b6d4",[m
+[32m+[m
+[32m+[m[32m    radius: 350,[m
+[32m+[m
+[32m+[m[32m    duration: 42,[m
+[32m+[m
+     size: 30,[m
+[32m+[m
+     category: "Web Development",[m
+[32m+[m
+     description: "Type-safe modern web applications using React, Next.js, component architecture, and robust state management."[m
+[32m+[m
+   },[m
+[31m-  { [m
+[31m-    name: "AI Concepts", [m
+[31m-    level: 65, [m
+[31m-    color: "#10b981", [m
+[31m-    orbitColor: "#8b5cf6", [m
+[31m-    radius: 395, [m
+[31m-    duration: 46, [m
+[32m+[m
+[32m+[m[32m  {[m
+[32m+[m
+[32m+[m[32m    name: "AI Concepts",[m
+[32m+[m
+[32m+[m[32m    level: 65,[m
+[32m+[m
+[32m+[m[32m    color: "#10b981",[m
+[32m+[m
+[32m+[m[32m    orbitColor: "#8b5cf6",[m
+[32m+[m
+[32m+[m[32m    radius: 395,[m
+[32m+[m
+[32m+[m[32m    duration: 46,[m
+[32m+[m
+     size: 32,[m
+[32m+[m
+     category: "Artificial Intelligence",[m
+[32m+[m
+     description: "Understanding neural networks, machine learning paradigms, prompt engineering, and modern AI integration models."[m
+[32m+[m
+   },[m
+[32m+[m
+ ];[m
+ [m
+[32m+[m
+[32m+[m
+ const coreSkill: Skill = {[m
+[32m+[m
+   name: "Core Hub (AI & Design)",[m
+[32m+[m
+   level: 100,[m
+[32m+[m
+   color: "#f59e0b",[m
+[32m+[m
+   orbitColor: "#f59e0b",[m
+[32m+[m
+   radius: 0,[m
+[32m+[m
+   duration: 0,[m
+[32m+[m
+   size: 80,[m
+[32m+[m
+   category: "Master Hub",[m
+[32m+[m
+   description: "Central core linking creative graphic design expertise with advanced artificial intelligence concepts."[m
+[32m+[m
+ };[m
+ [m
+[32m+[m
+[32m+[m
+ export default function Skills() {[m
+[32m+[m
+   const [activeSkill, setActiveSkill] = useState<Skill | null>(null);[m
+[32m+[m
+   const [isMobile, setIsMobile] = useState<boolean>(false);[m
+ [m
+[32m+[m
+[32m+[m
+   useEffect(() => {[m
+[32m+[m
+     const checkScreen = () => {[m
+[32m+[m
+       setIsMobile(window.innerWidth < 1024);[m
+[32m+[m
+     };[m
+[32m+[m
+     checkScreen();[m
+[32m+[m
+     window.addEventListener("resize", checkScreen);[m
+[32m+[m
+     return () => window.removeEventListener("resize", checkScreen);[m
+[32m+[m
+   }, []);[m
+ [m
+[32m+[m
+[32m+[m
+   return ([m
+[32m+[m
+     <section id="skills" className="relative px-6 md:px-12 lg:px-20 py-28 overflow-hidden">[m
+[32m+[m
+       <motion.h2[m
+[32m+[m
+         initial={{ opacity: 0, y: 20 

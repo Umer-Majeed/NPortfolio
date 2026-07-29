@@ -4,7 +4,7 @@ import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import HudFrame from "./HudFrame";
 
-// 🌐 LOW-POLY CONSTELLATION MESH HAND
+// 🌐 LOW-POLY CONSTELLATION MESH HAND (PC Only)
 function MeshHand({ side }: { side: "left" | "right" }) {
   const isLeft = side === "left";
 
@@ -91,7 +91,7 @@ function FloatingTag({
         ease: "easeInOut",
         delay,
       }}
-      className={`absolute z-30 pointer-events-none px-2.5 py-1 text-xs rounded border bg-card/95 border-white/10 text-muted backdrop-blur-md shadow-xl ${className}`}
+      className={`absolute z-30 pointer-events-none px-2.5 py-1 text-xs rounded-none border bg-card/95 border-white/10 text-muted backdrop-blur-md shadow-xl ${className}`}
     >
       {children}
     </motion.div>
@@ -107,21 +107,29 @@ interface FlipCardProps {
 }
 
 function FlipCard({ side, tag, title, description, floatingItems }: FlipCardProps) {
-  const [isFlipped, setIsFlipped] = useState(false);
+  const [isHovered, setIsHovered] = useState(false);
+  const [isInViewFlipped, setIsInViewFlipped] = useState(false);
   const isLeft = side === "left";
+
+  // PC par hover state, Mobile par scroll-triggered view state
+  const isFlipped = isHovered || isInViewFlipped;
 
   return (
     <div
-      onMouseEnter={() => setIsFlipped(true)}
-      onMouseLeave={() => setIsFlipped(false)}
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
       className="relative w-full h-[320px] md:h-[350px] cursor-pointer perspective-1000 group"
     >
-      {/* 3D ROTATING CONTAINER */}
       <motion.div
-        animate={{ rotateY: isFlipped ? 180 : 0 }}
+        // Mobile ke liye view trigger, PC ke liye hover trigger
+        whileInView={{ rotateY: 180 }}
+        onViewportEnter={() => setIsInViewFlipped(true)}
+        onViewportLeave={() => setIsInViewFlipped(false)}
+        viewport={{ amount: 0.6, margin: "0px 0px -50px 0px" }}
+        animate={{ rotateY: isHovered ? 180 : (isInViewFlipped ? 180 : 0) }}
         transition={{ duration: 0.6, ease: [0.25, 1, 0.5, 1] }}
         style={{ transformStyle: "preserve-3d", willChange: "transform" }}
-        className="relative w-full h-full rounded-lg shadow-2xl transform-gpu"
+        className="relative w-full h-full rounded-none shadow-2xl transform-gpu"
       >
         {/* ---------------- FRONT SIDE ---------------- */}
         <div
@@ -129,20 +137,18 @@ function FlipCard({ side, tag, title, description, floatingItems }: FlipCardProp
             backfaceVisibility: "hidden",
             WebkitBackfaceVisibility: "hidden",
           }}
-          className="absolute inset-0 p-6 flex flex-col justify-between z-10 rounded-lg bg-card/40 backdrop-blur-sm border border-white/5 hover:border-accent/60 transition-colors"
+          className="absolute inset-0 p-6 flex flex-col justify-between z-10 rounded-none bg-card/40 backdrop-blur-sm border border-white/5 hover:border-accent/60 transition-colors"
         >
           <HudFrame />
 
-          {/* CENTERED MAIN HEADING */}
           <div className="flex-1 flex items-center justify-center text-center">
             <h3 className="text-2xl md:text-3xl font-semibold text-foreground">
               {title}
             </h3>
           </div>
 
-          {/* BOTTOM TAG CHIP */}
           <div className="flex items-center justify-start">
-            <span className="text-xs bg-background/50 border border-white/10 text-muted px-2 py-1 rounded">
+            <span className="text-xs bg-background/50 border border-white/10 text-muted px-2 py-1 rounded-none">
               {tag}
             </span>
           </div>
@@ -155,7 +161,7 @@ function FlipCard({ side, tag, title, description, floatingItems }: FlipCardProp
             WebkitBackfaceVisibility: "hidden",
             transform: "rotateY(180deg)",
           }}
-          className="absolute inset-0 p-6 flex flex-col justify-between overflow-hidden rounded-lg bg-card/70 backdrop-blur-md border border-accent/40"
+          className="absolute inset-0 p-6 flex flex-col justify-between overflow-hidden rounded-none bg-card/70 backdrop-blur-md border border-accent/40"
         >
           <HudFrame />
 
@@ -172,7 +178,7 @@ function FlipCard({ side, tag, title, description, floatingItems }: FlipCardProp
 
           <div className="relative z-10">
             <div className="flex justify-between items-center mb-3">
-              <span className="text-xs px-2 py-1 rounded-full bg-accent/20 text-accent-light">
+              <span className="text-xs px-2 py-1 rounded-none bg-accent/20 text-accent-light">
                 {isLeft ? "Creative Profile" : "Technical Profile"}
               </span>
             </div>
@@ -186,14 +192,13 @@ function FlipCard({ side, tag, title, description, floatingItems }: FlipCardProp
             </p>
           </div>
 
-          {/* LEFT BOTTOM TEXT */}
           <div className="relative z-10 text-left text-xs font-mono text-muted">
             [ {isLeft ? "DESIGN_MATRIX" : "DEV_SYSTEM"} ]
           </div>
         </div>
       </motion.div>
 
-      {/* ---------------- CONSTELLATION MESH HAND (BOTTOM SLIDE IN) ---------------- */}
+      {/* ---------------- CONSTELLATION MESH HAND (Desktop Only - hidden on mobile) ---------------- */}
       <AnimatePresence>
         {isFlipped && (
           <motion.div
@@ -220,7 +225,7 @@ function FlipCard({ side, tag, title, description, floatingItems }: FlipCardProp
               stiffness: 180,
               damping: 20,
             }}
-            className={`absolute bottom-0 z-10 pointer-events-none transform-gpu ${
+            className={`absolute bottom-0 z-10 pointer-events-none transform-gpu hidden lg:block ${
               isLeft ? "left-0" : "right-0"
             }`}
           >
