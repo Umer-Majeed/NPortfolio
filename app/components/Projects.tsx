@@ -52,29 +52,32 @@ export default function Projects() {
         {projects.map((project) => (
           <div
             key={project.title}
-            className="relative bg-card/40 backdrop-blur-sm border border-white/5 rounded-lg p-6 hover:border-accent/60 transition-colors"
+            className="relative bg-card/40 backdrop-blur-sm border border-white/5 rounded-none p-6 hover:border-accent/60 transition-colors flex flex-col justify-between"
           >
             <HudFrame />
-            <div className="flex justify-between items-start mb-3">
-              <h3 className="text-xl font-semibold text-foreground">
-                {project.title}
-              </h3>
-              <span
-                className={`text-xs px-2 py-1 rounded-full ${
-                  project.status === "Completed"
-                    ? "bg-accent/20 text-accent-light"
-                    : "bg-muted/20 text-muted"
-                }`}
-              >
-                {project.status}
-              </span>
+            <div>
+              <div className="flex justify-between items-start gap-4 mb-3">
+                <h3 className="text-xl font-semibold text-foreground flex-1">
+                  {project.title}
+                </h3>
+                <span
+                  className={`text-xs px-2.5 py-1 rounded-none whitespace-nowrap ${
+                    project.status === "Completed"
+                      ? "bg-accent/20 text-accent-light border border-accent/40"
+                      : "bg-muted/10 text-muted border border-white/10"
+                  }`}
+                >
+                  {project.status}
+                </span>
+              </div>
+              <p className="text-muted text-sm mb-6">{project.description}</p>
             </div>
-            <p className="text-muted text-sm mb-4">{project.description}</p>
+            
             <div className="flex flex-wrap gap-2">
               {project.tech.map((t) => (
                 <span
                   key={t}
-                  className="text-xs bg-background/50 border border-white/10 text-muted px-2 py-1 rounded"
+                  className="text-xs bg-background/50 border border-white/10 text-muted px-2 py-1 rounded-none"
                 >
                   {t}
                 </span>
